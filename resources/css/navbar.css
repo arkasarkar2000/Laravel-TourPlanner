@@ -1,0 +1,60 @@
+/* Sidebar styles */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #343a40; /* Dark background color */
+    padding-top: 56px; /* Adjust based on your navbar height */
+    color: #ffffff; /* Light text color */
+    transition: all 0.3s;
+}
+
+#sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #ffffff; /* Light text color for links */
+    display: block;
+    transition: all 0.3s;
+}
+
+#sidebar a:hover {
+    background-color: #495057; /* Darker background color on hover */
+    color: #f8f9fa; /* Lighter text color on hover */
+}
+
+#sidebar .active {
+    background-color: #495057; /* Darker background color for active link */
+    color: #f8f9fa; /* Lighter text color for active link */
+}
+
+#sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 20px;
+    margin-left: 50px;
+}
+
+/* Adjust main content when the sidebar is open */
+#main {
+    transition: margin-left 0.3s;
+    padding: 15px;
+}
+
+/* Style for the overlay when the sidebar is open */
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.overlay.active {
+    display: block;
+}
