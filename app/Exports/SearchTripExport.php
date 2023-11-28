@@ -28,10 +28,8 @@ class SearchTripExport implements FromCollection, WithHeadings
         ];
     }
 
-
     public function collection()
     {
-        // dd($request);
         $query = Trips::select('trip_to','total_fare','total_days','from','to','members');
         if (!empty($this->input_search)) {
             $query->where('trip_to', 'like', '%' . $this->input_search . '%')
