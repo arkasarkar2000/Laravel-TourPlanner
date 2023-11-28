@@ -74,7 +74,7 @@
 
                 <div class="container">
                     <h2 class="my-4">Trips Listing</h2>
-                    <a href="{{ route('trips.export') }}" class="btn btn-sm btn-dark mb-3">Export</a>
+                    <a href="{{url('trips_export?input_search='.$request->input_search)}}" class="btn btn-sm btn-dark mb-3">Export</a>
                     <form action="{{route('trip.index')}}" method="get" id="usersearch">
                         <input type="text" name="input_search" class="form-control mb-3 col-lg-4"
                             placeholder="Search..."

@@ -58,7 +58,7 @@ class TripController extends Controller
                   ->orWhere('total_fare', 'like', '%' . $request->input_search . '%');
         }
         $trips = $query->paginate(5);
-        return view('home', compact('trips', 'users','roles'));
+        return view('home', compact('trips', 'users','roles','request'));
     }
 
     public function edit($id)
@@ -93,7 +93,7 @@ class TripController extends Controller
 
     public function get_trips_data(Request $request)
     {
-        dd($request->input_search);
+        // dd($request->input_search);
         if(isset($request->input_search)){
             return Excel::download(new SearchTripExport($request->input_search), 'trips_filtered.xlsx');
         }
