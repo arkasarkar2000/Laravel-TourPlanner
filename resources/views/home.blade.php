@@ -99,11 +99,11 @@
 
                         <tbody>
                             @php
-                                $serialNumber = $trips->firstItem();
+                                $index = $trips->perPage() * ($trips->currentPage() - 1)
                             @endphp
                             @foreach ($trips as $key => $trip)
                                 <tr>
-                                    <td>{{ $serialNumber }}</td>
+                                    <td>{{ $index + 1 }}</td>
                                     <td>{{ $trip->trip_to }}</td>
                                     <td>{{ $trip->total_fare }}</td>
                                     <td>{{ $trip->total_days }}</td>
@@ -118,15 +118,59 @@
                                             data-trip-id="{{ $trip->id }}">Delete</button>
 
                                     </td>
-                                    @php
-                                        $serialNumber++;
-                                    @endphp
                                 </tr>
+                                @php
+                                $index++;
+                            @endphp
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $trips->links() }}
                 </div>
+                <nav class="pagination_user">
+                    @if($trips->firstItem() == null || $trips->firstItem() == '')
+                    <div class="user_info"> Showing 0 to 0 of {{$trips->total()}} entries </div>
+                    @else
+                    <div class="user_info"> Showing {{$trips->firstItem()}} to {{$trips->lastItem() }} of {{$trips->total()}} entries </div>
+                    @endif
+                    <ul class="pagination">
+                       {{-- Previous Page Link --}}
+                       @if ($trips->onFirstPage())
+                       <li class="disabled page-item"><a href="#!" class="page-link"><i class="fa-solid fa-chevron-left"></i></a></li>
+                       @else
+                       <li class="waves-effect page-item"><a class="page-link" href="{{ $trips->previousPageUrl() }}"><i class="fa-solid fa-chevron-left"></i></a></li>
+                       @endif
+                       @php
+                       $link_limit=7;
+                       $str = '';
+                       if(isset($request->query()['input_search'])){
+                       $str .= '&input_search='.$request->query()['input_search'];
+                       }
+                       @endphp
+                       {{-- Page Number Links --}}
+                       @for($i=1; $i<=$trips->lastPage(); $i++)
+                             @php
+                                $half_total_links = floor($link_limit / 2);
+                                $from = $trips->currentPage() - $half_total_links;
+                                $to = $trips->currentPage() + $half_total_links;
+                                if ($trips->currentPage() < $half_total_links) {
+                                   $to += $half_total_links - $trips->currentPage();
+                                }
+                                if ($trips->lastPage() - $trips->currentPage() < $half_total_links) {
+                                   $from -= $half_total_links - ($trips->lastPage() - $trips->currentPage()) - 1;
+                                }
+                             @endphp
+                             @if ($from < $i && $i < $to)
+                                <li class="{{ ($trips->currentPage() == $i) ? ' active page-item' : 'waves-effect page-item' }}"><a class="page-link" href="?page={{$i}}{{$str}}">{{$i}}</a></li>
+                             @endif
+                       @endfor
+                       {{-- Next Page Link --}}
+                       @if ($trips->hasMorePages())
+                       <li class="waves-effect page-item"><a class="page-link" href="{{ $trips->nextPageUrl() }}"><i class="fa-solid fa-chevron-right"></i></a></li>
+                       @else
+                       <li class="disabled page-item"><a href="#!" class="page-link"><i class="fa-solid fa-chevron-right"></i></a></li>
+                       @endif
+                    </ul>
+                 </nav>
 
                 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
                     aria-hidden="true">
